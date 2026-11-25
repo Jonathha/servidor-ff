@@ -1,6 +1,6 @@
 # servidor-ff
 
-Servidor local pessoal para um jogador, conforme a especificação do projeto. O servidor é Python puro e usa apenas a biblioteca padrão. O executável é uma casca Windows com Tkinter: atualiza `servidor/` pela Release do GitHub e então inicia o servidor HTTP em `0.0.0.0:8080`.
+Servidor local pessoal para um jogador. O servidor e o painel web local usam apenas a biblioteca padrão do Python. O executável abre um painel em português no navegador, inicia o servidor HTTP em `0.0.0.0:8080` e verifica atualizações do código do servidor em segundo plano.
 
 ## Gerar o `.exe`
 
@@ -17,7 +17,7 @@ O resultado fica em `dist/ServidorFF.exe`, junto com `dist/servidor/` e `dist/ve
 
 Crie o repositório privado `servidor-ff`, publique o conteúdo deste repositório, e crie a Release `v1` com o asset `servidor.zip`. Esse ZIP deve conter os arquivos da pasta `servidor/` (incluindo `servidor.py`). Para atualização, altere `versao.txt`, gere outro `servidor.zip`, faça uma nova Release e anexe o asset com esse mesmo nome. A atualização usa exclusivamente a API/Release do GitHub; R2 não faz parte deste projeto.
 
-O `config.json` ao lado do EXE deve conter `github_token` (token somente leitura) e `repo` (`usuario/servidor-ff`). Ele nunca deve ser versionado.
+Na primeira abertura, o aplicativo pede um token de leitura do GitHub e o repositório. Os dados ficam em `config.json` ao lado do EXE para não solicitar novamente. Esse arquivo nunca deve ser versionado. O painel usa uma porta local aleatória e só aceita conexões do próprio notebook.
 
 ## Escopo do protocolo
 
