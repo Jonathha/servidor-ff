@@ -3,7 +3,15 @@
 
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+import json
 import logging
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+try:
+    import contas
+except ImportError:  # pragma: no cover
+    contas = None
 
 HOST = "0.0.0.0"
 PORT = 8080
@@ -58,6 +66,65 @@ class Handler(BaseHTTPRequestHandler):
         if body:
             self.wfile.write(body)
 
+    def _send_json(self, dados: dict, status: int = 200) -> None:
+        body = json.dumps(dados, ensure_ascii=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _private(self, body: bytes) -> bool:
+        """Atende os endpoints /private/*. Retorna True se a rota era privada."""
+        rotas = ("/private/criar-conta", "/private/login", "/private/definir-nick", "/private/verificar-token")
+        if self.path not in rotas:
+            return False
+        if contas is None:
+            self._send_json({"ok": False, "erro": "contas_indisponivel"}, 500)
+            return True
+        try:
+            dados = json.loads(body.decode("utf-8")) if body else {}
+        except (ValueError, UnicodeDecodeError):
+            self._send_json({"ok": False, "erro": "json_invalido"}, 400)
+            return True
+        if not isinstance(dados, dict):
+            self._send_json({"ok": False, "erro": "json_invalido"}, 400)
+            return True
+
+        if self.path == "/private/criar-conta":
+            ok, erro = contas.criar_conta(dados.get("usuario"), dados.get("senha"))
+            if not ok:
+                self._send_json({"ok": False, "erro": erro}, 400)
+            else:
+                account_id = contas.verificar(dados.get("usuario"), dados.get("senha"))
+                self._send_json({"ok": True, "account_id": account_id})
+            return True
+
+        if self.path == "/private/login":
+            account_id = contas.verificar(dados.get("usuario"), dados.get("senha"))
+            if account_id is None:
+                self._send_json({"ok": False, "erro": "credenciais_invalidas"}, 401)
+            else:
+                conta = contas.obter_conta(account_id) or {}
+                token = contas.emitir_token(account_id)
+                self._send_json({"ok": True, "account_id": account_id, "nick": conta.get("nick"), "access_token": token})
+            return True
+
+        if self.path == "/private/verificar-token":
+            if contas.verificar_token(dados.get("account_id"), dados.get("access_token")):
+                self._send_json({"ok": True})
+            else:
+                self._send_json({"ok": False, "erro": "token_invalido"}, 401)
+            return True
+
+        # /private/definir-nick
+        ok, erro = contas.definir_nick(dados.get("account_id"), dados.get("nick"))
+        if not ok:
+            self._send_json({"ok": False, "erro": erro}, 400)
+        else:
+            self._send_json({"ok": True})
+        return True
+
     def do_GET(self) -> None:  # noqa: N802
         if self.path == "/health":
             self._send("servidor ff v1 no ar".encode("utf-8"), "text/plain; charset=utf-8")
@@ -70,6 +137,9 @@ class Handler(BaseHTTPRequestHandler):
         with PEDIDOS_LOG.open("ab") as log:
             log.write(self.path.encode("utf-8", "replace") + b"\t" + body + b"\n")
         logging.info("%s tamanho=%d primeiros64=%s", self.path, len(body), body[:64].hex())
+
+        if self._private(body):
+            return
 
         if self.path.endswith("Ping"):
             response = b""
