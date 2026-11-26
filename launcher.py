@@ -141,6 +141,11 @@ def update_server() -> None:
         log("Atualização ignorada (%s); iniciando a versão local." % exc)
 
 
+def startup_server() -> None:
+    update_server()
+    start_server()
+
+
 def start_server() -> bool:
     global SERVER_PROCESS
     with LOCK:
@@ -228,16 +233,18 @@ def run_server_mode() -> None:
 def main() -> None:
     global LOCAL_IP
     LOCAL_IP = local_ip()
+    try:
+        load_config()
+    except Exception as exc:
+        log("Configuração do GitHub não concluída: %s" % exc)
     if not (SERVER_DIR / "servidor.py").is_file():
         log("Pasta servidor ausente ou incompleta.")
-    else:
-        threading.Thread(target=start_server, daemon=True).start()
     panel = ThreadingHTTPServer(("127.0.0.1", 0), DashboardHandler)
     threading.Thread(target=panel.serve_forever, daemon=True).start()
     panel_url = "http://127.0.0.1:%d/" % panel.server_address[1]
     webbrowser.open(panel_url)
     log("Painel local aberto no navegador: %s" % panel_url)
-    threading.Thread(target=update_server, daemon=True).start()
+    threading.Thread(target=startup_server, daemon=True).start()
     try:
         threading.Event().wait()
     except KeyboardInterrupt:
