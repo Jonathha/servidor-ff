@@ -21,12 +21,15 @@ APP_NAME = "Servidor FF"
 MAX_LOG_LINES = 30
 HTML = r'''<!doctype html><html lang="pt-BR"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Servidor FF</title>
 <style>
-:root{color-scheme:dark;--bg:#25282d;--panel:#30343a;--panel2:#383d44;--line:#484e56;--text:#eceff2;--muted:#aeb5bd;--accent:#7ba7d8;--green:#74c69d;--red:#e08c8c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px "Segoe UI",Arial,sans-serif}.layout{display:flex;min-height:100vh}.side{width:220px;padding:26px 16px;background:#292d32;border-right:1px solid var(--line)}.brand{font-size:20px;font-weight:700;padding:0 10px 26px}.nav{display:grid;gap:8px}.nav button,.action{border:0;border-radius:8px;padding:12px 14px;text-align:left;color:var(--muted);background:transparent;font:inherit;cursor:pointer}.nav button.active,.nav button:hover{background:var(--panel2);color:var(--text)}main{width:min(100%,1050px);padding:34px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.top h1{font-size:24px;margin:0}.badge{border-radius:99px;padding:7px 12px;background:var(--panel2);font-size:13px}.badge.on{color:var(--green)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}.label{color:var(--muted);font-size:13px}.value{font-size:20px;margin-top:10px;overflow-wrap:anywhere}.action{background:var(--accent);color:#17212c;font-weight:650;margin-top:16px;text-align:center;min-width:125px}.action:disabled{opacity:.55;cursor:wait}.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:16px}.tab{border:0;background:none;color:var(--muted);padding:10px 13px;font:inherit;cursor:pointer}.tab.active{color:var(--text);border-bottom:2px solid var(--accent)}.logs{height:390px;overflow:auto;background:#202328;border:1px solid var(--line);border-radius:9px;padding:14px;font:12px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.note{color:var(--muted);font-size:13px;margin-top:12px}.hidden{display:none}@media(max-width:700px){.layout{display:block}.side{width:100%;padding:14px;border:0;border-bottom:1px solid var(--line)}.brand{padding:4px 8px 12px}.nav{display:flex}.nav button{flex:1;text-align:center}main{padding:22px 16px}.grid{grid-template-columns:1fr}.top{align-items:flex-start}}
-</style><div class="layout"><aside class="side"><div class="brand">Servidor FF</div><nav class="nav"><button class="active" data-page="home">Visão geral</button><button data-page="logs">Registros</button></nav></aside><main><div class="top"><h1 id="heading">Visão geral</h1><span id="status" class="badge">Carregando…</span></div>
+:root{color-scheme:dark;--bg:#25282d;--panel:#30343a;--panel2:#383d44;--line:#484e56;--text:#eceff2;--muted:#aeb5bd;--accent:#7ba7d8;--green:#74c69d;--red:#e08c8c}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:15px "Segoe UI",Arial,sans-serif}.layout{display:flex;min-height:100vh}.side{width:220px;padding:26px 16px;background:#292d32;border-right:1px solid var(--line)}.brand{font-size:20px;font-weight:700;padding:0 10px 26px}.nav{display:grid;gap:8px}.nav button,.action{border:0;border-radius:8px;padding:12px 14px;text-align:left;color:var(--muted);background:transparent;font:inherit;cursor:pointer}.nav button.active,.nav button:hover{background:var(--panel2);color:var(--text)}main{width:min(100%,1050px);padding:34px;margin:auto}.top{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:24px}.top h1{font-size:24px;margin:0}.badge{border-radius:99px;padding:7px 12px;background:var(--panel2);font-size:13px}.badge.on{color:var(--green)}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:20px}.label{color:var(--muted);font-size:13px}.value{font-size:20px;margin-top:10px;overflow-wrap:anywhere}.action{background:var(--accent);color:#17212c;font-weight:650;margin-top:16px;text-align:center;min-width:125px}.action:disabled{opacity:.55;cursor:wait}.tabs{display:flex;gap:8px;border-bottom:1px solid var(--line);margin-bottom:16px}.tab{border:0;background:none;color:var(--muted);padding:10px 13px;font:inherit;cursor:pointer}.tab.active{color:var(--text);border-bottom:2px solid var(--accent)}.logs{height:390px;overflow:auto;background:#202328;border:1px solid var(--line);border-radius:9px;padding:14px;font:12px Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}.note{color:var(--muted);font-size:13px;margin-top:12px}.hidden{display:none}input{background:var(--panel2);border:1px solid var(--line);border-radius:8px;padding:11px 12px;color:var(--text);font:inherit;width:100%;margin-top:10px}.conta-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);overflow-wrap:anywhere}.conta-item:last-child{border-bottom:0}@media(max-width:700px){.layout{display:block}.side{width:100%;padding:14px;border:0;border-bottom:1px solid var(--line)}.brand{padding:4px 8px 12px}.nav{display:flex}.nav button{flex:1;text-align:center}main{padding:22px 16px}.grid{grid-template-columns:1fr}.top{align-items:flex-start}}
+</style><div class="layout"><aside class="side"><div class="brand">Servidor FF</div><nav class="nav"><button class="active" data-page="home">Visão geral</button><button data-page="contas">Contas</button><button data-page="logs">Registros</button></nav></aside><main><div class="top"><h1 id="heading">Visão geral</h1><span id="status" class="badge">Carregando…</span></div>
 <section id="home"><div class="grid"><div class="card"><div class="label">Estado do servidor</div><div class="value" id="state">Iniciando</div><button class="action" id="toggle">Aguarde…</button></div><div class="card"><div class="label">Endereço na rede local</div><div class="value" id="address">—</div><div class="note">Conecte o celular à mesma rede Wi-Fi.</div></div><div class="card"><div class="label">Atualizações</div><div class="value" id="version">Verificando</div><div class="note" id="update-note">O servidor inicia mesmo sem internet.</div></div><div class="card"><div class="label">Painel</div><div class="value">Disponível somente neste computador</div><div class="note">Esta página é servida localmente pelo aplicativo.</div></div></div></section>
+<section id="contas" class="hidden"><div class="grid"><div class="card"><div class="label">Criar conta</div><input id="conta-usuario" type="text" placeholder="Usuário" autocomplete="off"><input id="conta-senha" type="password" placeholder="Senha"><button class="action" id="conta-criar">Criar conta</button><p class="note" id="conta-msg"></p></div><div class="card"><div class="label">Contas existentes</div><div id="conta-lista"><p class="note">Nenhuma conta ainda.</p></div></div></div></section>
 <section id="logs" class="hidden"><div class="tabs"><button class="tab active" data-logtab="live">Ao vivo</button><button class="tab" data-logtab="info">Sobre</button></div><pre class="logs" id="logtext"></pre><p class="note" id="about">Os últimos 30 registros são mantidos na tela.</p></section></main></div>
 <script>
-const $=s=>document.querySelector(s);document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x===b));$('#home').classList.toggle('hidden',b.dataset.page!=='home');$('#logs').classList.toggle('hidden',b.dataset.page!=='logs');$('#heading').textContent=b.dataset.page==='home'?'Visão geral':'Registros'});document.querySelectorAll('[data-logtab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-logtab]').forEach(x=>x.classList.toggle('active',x===b));$('#logtext').classList.toggle('hidden',b.dataset.logtab!=='live');$('#about').classList.toggle('hidden',b.dataset.logtab!=='info')});
+const $=s=>document.querySelector(s);const TITULOS={home:'Visão geral',contas:'Contas',logs:'Registros'};document.querySelectorAll('[data-page]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-page]').forEach(x=>x.classList.toggle('active',x===b));$('#home').classList.toggle('hidden',b.dataset.page!=='home');$('#contas').classList.toggle('hidden',b.dataset.page!=='contas');$('#logs').classList.toggle('hidden',b.dataset.page!=='logs');$('#heading').textContent=TITULOS[b.dataset.page];if(b.dataset.page==='contas')carregarContas()});document.querySelectorAll('[data-logtab]').forEach(b=>b.onclick=()=>{document.querySelectorAll('[data-logtab]').forEach(x=>x.classList.toggle('active',x===b));$('#logtext').classList.toggle('hidden',b.dataset.logtab!=='live');$('#about').classList.toggle('hidden',b.dataset.logtab!=='info')});
+async function carregarContas(){try{let r=await fetch('/api/contas',{cache:'no-store'}),d=await r.json();let lista=(d.contas||[]);$('#conta-lista').innerHTML=lista.length?lista.map(c=>'<div class="conta-item"><span>'+c.usuario+'</span><span class="label">ID '+c.account_id+(c.nick?' · '+c.nick:' · sem nick')+'</span></div>').join(''):'<p class="note">Nenhuma conta ainda.</p>'}catch(e){$('#conta-lista').innerHTML='<p class="note">Não foi possível carregar as contas.</p>'}}
+$('#conta-criar').onclick=async()=>{let u=$('#conta-usuario').value,s=$('#conta-senha').value,m=$('#conta-msg');try{let r=await fetch('/api/contas',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({usuario:u,senha:s})}),d=await r.json();if(d.ok){m.textContent='Conta criada. ID: '+d.account_id;$('#conta-usuario').value='';$('#conta-senha').value='';carregarContas()}else{m.textContent='Não foi possível criar: '+(d.erro||'erro')}}catch(e){m.textContent='Não foi possível criar a conta.'}};
 async function refresh(){try{let r=await fetch('/api/state',{cache:'no-store'}),d=await r.json();$('#state').textContent=d.running?'LIGADO':'DESLIGADO';$('#status').textContent=d.running?'● LIGADO':'● DESLIGADO';$('#status').classList.toggle('on',d.running);$('#address').textContent=d.ip+':8080';$('#version').textContent=d.version||'Local';$('#update-note').textContent=d.update||'Atualizações automáticas ativadas.';$('#toggle').textContent=d.running?'Desligar':'Ligar';$('#toggle').disabled=false;$('#logtext').textContent=(d.logs||[]).join('\n');$('#logtext').scrollTop=$('#logtext').scrollHeight}catch(e){$('#status').textContent='Painel reconectando…'}}$('#toggle').onclick=async()=>{let b=$('#toggle');b.disabled=true;try{await fetch('/api/toggle',{method:'POST'})}finally{setTimeout(refresh,250)}};refresh();setInterval(refresh,1200);
 </script></html>'''
 
@@ -37,6 +40,11 @@ def app_dir() -> Path:
 
 BASE = app_dir()
 SERVER_DIR = BASE / "servidor"
+sys.path.insert(0, str(SERVER_DIR))
+try:
+    import contas as contas_mod
+except ImportError:
+    contas_mod = None
 CONFIG_FILE = BASE / "config.json"
 LOCAL_VERSION_FILE = BASE / "versao.txt"
 LOGS = deque(maxlen=MAX_LOG_LINES)
@@ -190,7 +198,22 @@ def stop_server() -> None:
 
 
 class DashboardHandler(BaseHTTPRequestHandler):
+    def _json(self, dados, status=200):
+        body = json.dumps(dados, ensure_ascii=False).encode("utf-8")
+        self.send_response(status)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("Cache-Control", "no-store")
+        self.end_headers()
+        self.wfile.write(body)
+
     def do_GET(self):  # noqa: N802
+        if self.path == "/api/contas":
+            if contas_mod is None:
+                self._json({"ok": False, "erro": "contas_indisponivel"}, 500)
+            else:
+                self._json({"ok": True, "contas": contas_mod.listar_contas()})
+            return
         if self.path == "/":
             body, content = HTML.encode("utf-8"), "text/html; charset=utf-8"
         elif self.path == "/api/state":
@@ -209,6 +232,22 @@ class DashboardHandler(BaseHTTPRequestHandler):
         self.wfile.write(body)
 
     def do_POST(self):  # noqa: N802
+        if self.path == "/api/contas":
+            if contas_mod is None:
+                self._json({"ok": False, "erro": "contas_indisponivel"}, 500)
+                return
+            try:
+                size = int(self.headers.get("Content-Length", "0"))
+                dados = json.loads(self.rfile.read(size).decode("utf-8")) if size else {}
+            except (ValueError, UnicodeDecodeError):
+                dados = {}
+            ok, erro = contas_mod.criar_conta(dados.get("usuario"), dados.get("senha"))
+            if not ok:
+                self._json({"ok": False, "erro": erro}, 400)
+            else:
+                account_id = contas_mod.verificar(dados.get("usuario"), dados.get("senha"))
+                self._json({"ok": True, "account_id": account_id})
+            return
         if self.path != "/api/toggle":
             self.send_error(404)
             return
